@@ -10,6 +10,14 @@ const userService = require("./user-service.js");
 
 const HTTP_PORT = process.env.PORT || 8080;
 
+const corsOptions = {
+    origin: 'https://web422-a6-artwork.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
 
@@ -31,7 +39,7 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
 });
 passport.use(strategy);
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(passport.initialize());
 
 app.post("/api/user/register", (req, res) => {
