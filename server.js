@@ -22,10 +22,10 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
     console.log('payload received', jwt_payload);
 
     if (jwt_payload) {
-        next(null, {
-            _id: jwt_payload._id,
-            userName: jwt_payload.userName
-        });
+        next(null, { _id: jwt_payload._id, 
+            userName: jwt_payload.userName, 
+            fullName: jwt_payload.fullName, 
+            role: jwt_payload.role }); 
     }
     else next(null, false);
 });
@@ -46,9 +46,11 @@ app.post("/api/user/register", (req, res) => {
 app.post("/api/user/login", (req, res) => {
     userService.checkUser(req.body)
     .then((user) => {
-        let payload = {
+        let payload = { 
             _id: user._id,
-            userName: user.userName
+            userName: user.userName,
+            fullName: user.fullName,
+            role: user.role
         };
         let token = jwt.sign(payload, jwtOptions.secretOrKey);
 

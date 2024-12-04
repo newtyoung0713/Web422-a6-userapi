@@ -38,7 +38,7 @@ module.exports.registerUser = function (userData) {
         if (userData.password != userData.password2) {
             reject("Passwords do not match");
         } else {
-
+            // Hash the password using a Salt that was generated using 10 rounds
             bcrypt.hash(userData.password, 10).then(hash => {
 
                 userData.password = hash;
