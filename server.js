@@ -31,7 +31,11 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
 });
 passport.use(strategy);
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://web422-a6-artwork.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
 app.use(passport.initialize());
 
 app.post("/api/user/register", (req, res) => {
