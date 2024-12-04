@@ -34,7 +34,8 @@ app.use(express.json());
 app.use(cors({
     origin: 'https://web422-a6-artwork.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
   }));
 app.use(passport.initialize());
 
@@ -74,7 +75,7 @@ app.get("/api/user/favourites", passport.authenticate('jwt', {session: false}), 
     .then(data => {
         res.json(data);
     }).catch(msg => {
-        console.error('Error retrieving favourites:', err);
+        console.error('Error retrieving favourites:', msg);
         res.status(422).json({ error: msg });
     })
 
