@@ -34,9 +34,11 @@ app.use(express.json());
 app.use(cors({
     origin: 'https://web422-a6-artwork.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
   }));
 app.use(passport.initialize());
+app.options('*', cors());
 
 app.post("/api/user/register", (req, res) => {
     userService.registerUser(req.body)
