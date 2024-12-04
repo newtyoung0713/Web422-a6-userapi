@@ -29,6 +29,7 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
     }
     else next(null, false);
 });
+
 passport.use(strategy);
 app.use(express.json());
 app.use(cors());
