@@ -22,21 +22,16 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
     console.log('payload received', jwt_payload);
 
     if (jwt_payload) {
-        next(null, { _id: jwt_payload._id, 
-            userName: jwt_payload.userName, 
-            fullName: jwt_payload.fullName, 
-            role: jwt_payload.role }); 
+        next(null, {
+            _id: jwt_payload._id, 
+            userName: jwt_payload.userName
+        }); 
     }
     else next(null, false);
 });
 passport.use(strategy);
 app.use(express.json());
-app.use(cors({
-    origin: 'https://web422-a6-artwork.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-  }));
+app.use(cors());
 app.use(passport.initialize());
 
 app.post("/api/user/register", (req, res) => {
@@ -53,9 +48,7 @@ app.post("/api/user/login", (req, res) => {
     .then((user) => {
         let payload = { 
             _id: user._id,
-            userName: user.userName,
-            fullName: user.fullName,
-            role: user.role
+            userName: user.userName
         };
         let token = jwt.sign(payload, jwtOptions.secretOrKey);
 
